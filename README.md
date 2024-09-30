@@ -46,13 +46,21 @@ All software architectures have pros and cons:
 
 #### Download and Install Template
 ```bash
+
+# List all dotnet templates
+dotnet new list
+
+# If template is present you can uninstall and install again
+dotnet new uninstall ./caravel-template-vertical-slice
+
+# Install caravel template vertical slice
 git clone git@github.com:Talento90/caravel-template-vertical-slice.git
-dotnet new --install ~/caravel-template-vertical-slice
+dotnet new install ./caravel-template-vertical-slice
 ```
 
 #### Generate Project
 ```bash
-dotnet new caravel-template-vertical-slice -n MyProject -o ./
+dotnet new caravel-api-vertical-slice -n MyProject -o ./
 ```
 Note: `MyProject` is  going to replace the `CaravelTemplate`  
 
