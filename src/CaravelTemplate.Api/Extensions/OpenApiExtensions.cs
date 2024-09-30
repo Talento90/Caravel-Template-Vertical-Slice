@@ -1,4 +1,4 @@
-namespace CaravelTemplate.Adapter.Api.Extensions;
+namespace CaravelTemplate.Api.Extensions;
 
 public static class OpenApiExtensions
 {

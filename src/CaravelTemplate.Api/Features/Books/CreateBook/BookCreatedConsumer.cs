@@ -1,6 +1,7 @@
+using CaravelTemplate.Api.Shared.Messaging;
 using MassTransit;
 
-namespace CaravelTemplate.Api.Shared.Messaging.Consumers;
+namespace CaravelTemplate.Api.Features.Books.CreateBook;
 
 public class BookCreatedConsumer : IConsumer<BookCreatedMessage>
 {

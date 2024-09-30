@@ -1,26 +1,35 @@
-# Caravel Template
+# Caravel Template Vertical Slice
 
-This template uses Caravel package as an SDK and it bootstraps a full functional web api following the Hexagonal Architecture:
+This template uses Caravel package as an SDK and it bootstraps a full functional web api following the Vertical Slice Architecture:
 
-* CaravelTemplate (Application Domain)
-* CaravelTemplate.Application (Application business logic)
-* CaravelTemplate.Adapter.MassTransit (Adapter to enable message queuing using MassTransit)
-* CaravelTemplate.Adapter.Quartz (Adapter to enable scheduling jobs using Quartz)
-* CaravelTemplate.Adapter.PostgreSql (Adapter to enable database assess queuing using Entity Framework and PostgreSql)
-* CaravelTemplate.Adapter.Identity (Adapter to enable user management using ASP.NET Identity)
-* CaravelTemplate.Adapter.API (HTTP API Server using ASP.NET 8.0)
-* CaravelTemplate.Host (The program entry point that glues all the adapters and server)
+* CaravelTemplate.Api - Single project containing the following main folders:
+    * **Features** - Application features. e.g. create book, get book, etc.
+    * **Shared** - Shared components. e.g. domain, database, clients, messaging, etc.
 * CaravelTemplate.Migrator (A slim program to handle entity framework migrations)
 
+### Pros & Cons
+
+All software architectures have pros and cons:
+
+* Cohesion ✅ - High cohesion within each slice as it encapsulates a feature end-to-end, making it easy to understand and maintain.
+* Coupling ✅ - Low coupling within each slice and they can be development in parallel. Changes in one slice have minimal or no impact in others.
+* Flexibility ✅ - Very flexible when adding or modifying features as each slice can be handled independently.
+* Learning ✅ - It’s straightforward to understand the flow of individual slices due to the high cohesion.
+* Modularity ✅ - High modularity with self-contained slices, in which can be developed and deployed independently.
+* Simplicity 🟨 - Simple for small to medium projects. Complexity grows as the number of slices increases, but it is possible to extract features into separate modules to reduce it.
+* Testability 🟨 - Easy to test end-to-end each slice independently but might require extra setup for shared components and infrastucture concerns.
+
+
+ 
 ![architecture](./assets/architecture.png)
+
 
 ### Features
 
-* [Caravel SDK](https://github.com/talento90/caravel) (Errors, Middleware, Exceptions)
-* HTTP Api using Minimal APIs.
-* Business logic using CQRS pattern + behaviours  ([MediatR](https://github.com/jbogard/MediatR))
+* [Caravel SDK](https://github.com/talento90/caravel) (Errors, Middleware, Exceptions, MediatR Pipeline Behabiours)
+* HTTP Api using Minimal APIs using the REPR (Request-Endpoint-Response) pattern.
+* Business logic using CQRS pattern + pipeline behaviours  ([MediatR](https://github.com/jbogard/MediatR))
 * Message bus using ([MassTransit](https://github.com/MassTransit/MassTransit))
-* Job Schedulers using ([Quartz](https://github.com/quartznet/quartznet))
 * Observability + Dashboard using ([OpenTelemetry](https://github.com/open-telemetry/opentelemetry-dotnet)) and Aspire
 * Entity Framework and Migrations using PostgreSQL
 * Health Check mechanism
@@ -37,13 +46,13 @@ This template uses Caravel package as an SDK and it bootstraps a full functional
 
 #### Download and Install Template
 ```bash
-git clone git@github.com:Talento90/caravel-template.git
-dotnet new --install ~/caravel-template
+git clone git@github.com:Talento90/caravel-template-vertical-slice.git
+dotnet new --install ~/caravel-template-vertical-slice
 ```
 
 #### Generate Project
 ```bash
-dotnet new caravel-webapi -n MyProject -o ./
+dotnet new caravel-template-vertical-slice -n MyProject -o ./
 ```
 Note: `MyProject` is  going to replace the `CaravelTemplate`  
 
@@ -81,14 +90,14 @@ dotnet tool install --global dotnet-ef
 dotnet tool update --global dotnet-ef
 
 # List all migrations
-dotnet ef migrations list --startup-project src/CaravelTemplate.Migrator --project src/CaravelTemplate.Adapter.PostgreSql --context ApplicationDbContext --no-build
+dotnet ef migrations list --startup-project src/CaravelTemplate.Migrator --project src/CaravelTemplate.Api --context ApplicationDbContext --no-build
 
 # Generate SQL Scripts
-dotnet ef migrations script --startup-project src/CaravelTemplate.Migrator --project src/CaravelTemplate.Adapter.PostgreSql --context ApplicationDbContext --no-build 
+dotnet ef migrations script --startup-project src/CaravelTemplate.Migrator --project src/CaravelTemplate.Api --context ApplicationDbContext --no-build 
 
 # Add new database migration changes to the Application DbContext
-dotnet ef migrations add CreateApplicationSchema --startup-project src/CaravelTemplate.Migrator --output-dir Migrations --project src/CaravelTemplate.Adapter.PostgreSql --context ApplicationDbContext --no-build
+dotnet ef migrations add CreateApplicationSchema --startup-project src/CaravelTemplate.Migrator --output-dir Shared/Data/Migrations --project src/CaravelTemplate.Api --context ApplicationDbContext --no-build
  
 # Apply the migration changes
-dotnet ef database update --startup-project src/CaravelTemplate.Migrator --project src/CaravelTemplate.Adapter.PostgreSql --context ApplicationDbContext --no-build   
+dotnet ef database update --startup-project src/CaravelTemplate.Migrator --project src/CaravelTemplate.Api --context ApplicationDbContext --no-build 
 ```

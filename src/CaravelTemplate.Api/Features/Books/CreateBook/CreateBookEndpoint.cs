@@ -17,8 +17,11 @@ public class CreateBookEndpoint : IEndpointFeature
                         err => err.ToApiProblemDetailsResult());
                 })
             .WithName(nameof(CreateBookEndpoint))
-            .WithDescription("Get a book by it's unique identifier.")
+            .WithDescription("Create a new book.")
             .WithTags(Tags.Books)
+            .Produces<CreateBookResponse>(201)
+            .Produces<ApiProblemDetails>(400)
+            .Produces<ApiProblemDetails>(500)
             .WithOpenApi();
     }
 }

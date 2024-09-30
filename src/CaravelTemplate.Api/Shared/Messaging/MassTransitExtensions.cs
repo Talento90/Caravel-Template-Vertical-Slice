@@ -11,28 +11,22 @@ public static class MassTransitExtensions
         {
             // Endpoints where we publish messages
             busConfig.SetKebabCaseEndpointNameFormatter();
-            
+
             // Register all consumers via assembly scan
             busConfig.AddConsumers(Assembly.GetExecutingAssembly());
 
-            //  Configure which messaging transport (RabbitMq, SQS, etc)
-             // busConfig.UsingInMemory((context, config) =>
-             // {
-             //     config.ConfigureEndpoints(context);
-             // });
-             
-             busConfig.UsingRabbitMq((context, config) =>
-             {
-                 config.Host(options.Host, options.Port, options.VirtualHost, host =>
-                 {
-                     host.Username(options.Username);
-                     host.Password(options.Password);
-                 });
-                 
-                 config.ConfigureEndpoints(context);
-             });
+            busConfig.UsingRabbitMq((context, config) =>
+            {
+                config.Host(options.Host, options.Port, options.VirtualHost, host =>
+                {
+                    host.Username(options.Username);
+                    host.Password(options.Password);
+                });
+
+                config.ConfigureEndpoints(context);
+            });
         });
-        
+
         services.AddSingleton<IPublisher, MassTransitPublisher>();
     }
 }

@@ -13,9 +13,8 @@ try
 
     builder.Services.AddApplicationDbContext(builder.Configuration);
     builder.Services.AddIdentityDbContext(builder.Configuration);
-
     builder.Build();
-
+    
     Log.Information("Migrator Run Successfully");
 }
 catch (Exception ex) when

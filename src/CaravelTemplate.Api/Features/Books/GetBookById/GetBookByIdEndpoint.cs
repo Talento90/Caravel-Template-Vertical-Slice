@@ -18,6 +18,9 @@ public class GetBookByIdEndpoint : IEndpointFeature
             .WithName(nameof(GetBookById))
             .WithDescription("Get a book by it's unique identifier.")
             .WithTags(Tags.Books)
+            .Produces<GetBookByIdResponse>(200)
+            .Produces<ApiProblemDetails>(400)
+            .Produces<ApiProblemDetails>(500)
             .WithOpenApi();
     }
 }

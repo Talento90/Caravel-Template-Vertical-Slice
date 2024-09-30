@@ -3,7 +3,6 @@ using System.Net.Http.Json;
 using Caravel.AspNetCore.Http;
 using CaravelTemplate.Api.Features.Books.CreateBook;
 using CaravelTemplate.Api.Shared.Messaging;
-using CaravelTemplate.Api.Shared.Messaging.Consumers;
 using CaravelTemplate.IntegrationTests.Factories;
 using MassTransit.Testing;
 

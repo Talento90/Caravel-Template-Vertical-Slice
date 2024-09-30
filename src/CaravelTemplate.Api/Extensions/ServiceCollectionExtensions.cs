@@ -1,12 +1,23 @@
 using CaravelTemplate.Api.Shared.Data;
 using CaravelTemplate.Api.Shared.Identity;
 using CaravelTemplate.Api.Shared.Messaging;
+using Microsoft.FeatureManagement;
+using Microsoft.FeatureManagement.FeatureFilters;
+using IdentityOptions = CaravelTemplate.Api.Shared.Identity.IdentityOptions;
 
 namespace CaravelTemplate.Api.Extensions;
 
 public static class ServiceCollectionExtensions
 {
-    public static void AddAdapterPostgreSql(
+    
+    public static void AddFeatureManagement(this IServiceCollection services, IConfigurationManager configuration)
+    {
+        services
+            .AddFeatureManagement(configuration.GetSection("FeatureManagement"))
+            .AddFeatureFilter<PercentageFilter>();
+    }
+    
+    public static void AddApplicationDbContext(
         this IServiceCollection services,
         IConfigurationManager configuration)
     {
@@ -16,7 +27,7 @@ public static class ServiceCollectionExtensions
         services.RegisterPostgreSql(postgreOption);
     }
     
-    public static void AddIdentityAdapter(
+    public static void AddIdentityDbContext(
         this IServiceCollection services,
         IConfigurationManager configuration)
     {
@@ -26,7 +37,7 @@ public static class ServiceCollectionExtensions
         services.RegisterIdentity(identityOption);
     }
     
-    public static void AddMassTransitAdapter(
+    public static void AddMassTransit(
         this IServiceCollection services,
         IConfigurationManager configuration)
     {
