@@ -1,8 +1,11 @@
 using System.Reflection;
+using System.Text.Json;
+using System.Text.Json.Serialization;
 using Asp.Versioning;
 using Caravel.AspNetCore.Endpoint;
 using Caravel.AspNetCore.Middleware;
 using Caravel.AspNetCore.Security;
+using Caravel.Json;
 using Caravel.MediatR.Logging;
 using Caravel.MediatR.Validation;
 using Caravel.Security;
@@ -25,6 +28,17 @@ try
     builder.Services.AddSerilog();
     
     builder.Services.AddSingleton<BookMetrics>();
+    
+    builder.Services.AddHealthChecks();
+    
+    // Set the JSON serializer options
+    builder.Services.ConfigureHttpJsonOptions(options =>
+    {
+        options.SerializerOptions.PropertyNamingPolicy = JsonNamingPolicy.CamelCase;
+        options.SerializerOptions.PropertyNameCaseInsensitive = true;
+        options.SerializerOptions.DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull;
+        options.SerializerOptions.Converters.Add(new JsonStringUnknownEnumConverter(JsonNamingPolicy.CamelCase));
+    });
     
     builder.Services.AddFeatureManagement(builder.Configuration);
     builder.Services.AddApplicationDbContext(builder.Configuration);
@@ -86,6 +100,7 @@ try
     
     application.UseHttpsRedirection();
     application.UseSerilogRequestLogging();
+    application.MapHealthChecks("/healthz");
     application.UseExceptionHandler();
     application.UseMiddleware<ActivityEnrichingMiddleware>();
     application.UseMiddleware<SecurityResponseHeadersMiddleware>();
