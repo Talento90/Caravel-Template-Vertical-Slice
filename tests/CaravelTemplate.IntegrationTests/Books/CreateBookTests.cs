@@ -25,7 +25,7 @@ public class CreateBookTests(TestingWebApplicationFactory factory) : BaseIntegra
         var apiError = await response.Content.ReadFromJsonAsync<ApiProblemDetails>();
 
         apiError.Should().NotBeNull();
-        apiError!.Code.Should().Be("validation_payload");
+        apiError!.Code.Should().Be("validation_request");
         apiError!.Errors.Should().HaveCount(1);
         apiError!.Errors!.First().Key.Should().Be("Name");
     }
