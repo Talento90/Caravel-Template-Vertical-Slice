@@ -98,14 +98,13 @@ dotnet tool install --global dotnet-ef
 dotnet tool update --global dotnet-ef
 
 # List all migrations
-dotnet ef migrations list --startup-project src/CaravelTemplate.Migrator --project src/CaravelTemplate.Api --context ApplicationDbContext --no-build
+dotnet ef migrations list --startup-project src/CaravelTemplate.Migrator --project src/CaravelTemplate.Api --context ApplicationDbContext
 
 # Generate SQL Scripts
-dotnet ef migrations script --startup-project src/CaravelTemplate.Migrator --project src/CaravelTemplate.Api --context ApplicationDbContext --no-build 
-
+dotnet ef migrations script --startup-project src/CaravelTemplate.Migrator --project src/CaravelTemplate.Api --context ApplicationDbContext
 # Add new database migration changes to the Application DbContext
-dotnet ef migrations add CreateApplicationSchema --startup-project src/CaravelTemplate.Migrator --output-dir Shared/Data/Migrations --project src/CaravelTemplate.Api --context ApplicationDbContext --no-build
+dotnet ef migrations add CreateApplicationSchema --startup-project src/CaravelTemplate.Migrator --output-dir Shared/Data/Migrations --project src/CaravelTemplate.Api --context ApplicationDbContext 
  
 # Apply the migration changes
-dotnet ef database update --startup-project src/CaravelTemplate.Migrator --project src/CaravelTemplate.Api --context ApplicationDbContext --no-build 
+dotnet ef database update --startup-project src/CaravelTemplate.Migrator --project src/CaravelTemplate.Api --context ApplicationDbContext 
 ```
